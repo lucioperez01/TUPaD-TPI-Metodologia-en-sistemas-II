@@ -1,0 +1,56 @@
+PLAN DE REFACTORIZACIÓN
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+OBJETIVO:
+
+Mejorar la calidad interna del sistema mediante refactorizaciones que reduzcan la duplicación, mejoren la organización del código y faciliten su mantenimiento.
+
+REFACTORIZACIÓN 1 - EXTRACT METHOD
+
+Problema identificado:
+Las validaciones de email y matrícula se encuentran dentro de las funciones de creación y actualización de estudiantes.
+
+Propuesta:
+Extraer las validaciones a funciones independientes para mejorar la legibilidad y reutilizar la lógica.
+
+Técnica:
+Extract Method.
+
+REFACTORIZACIÓN 2 - MOVE METHOD
+
+Problema identificado:
+Los servicios realizan consultas para obtener registros y verificar condiciones que podrían estar centralizadas en los repositorios.
+
+Propuesta:
+Trasladar las consultas específicas de validación a los repositorios correspondientes, manteniendo en los servicios la coordinación de las reglas de negocio.
+
+Técnica:
+Move Method.
+
+REFACTORIZACIÓN 3 - INTRODUCE PARAMETER OBJECT
+
+Problema identificado:
+La función validar_referencias recibe individualmente los identificadores del estudiante, área y responsable.
+
+Propuesta:
+Agrupar los identificadores relacionados en un objeto de parámetros para simplificar la firma de la función.
+
+Técnica:
+Introduce Parameter Object.
+
+REFACTORIZACIÓN 4 - CENTRALIZACIÓN DE VALORES
+
+Problema identificado:
+Existen valores predeterminados y literales repetidos, como "Media" y "Pendiente".
+
+Propuesta:
+Centralizar los valores utilizados por las solicitudes para evitar inconsistencias y facilitar futuros cambios.
+
+Técnica:
+Consolidate Duplicate Values.
+
+RESULTADO ESPERADO:
+
+Reducir la duplicación de código, mejorar la distribución de responsabilidades, simplificar las funciones y facilitar el mantenimiento del sistema.

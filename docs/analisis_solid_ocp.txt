@@ -1,0 +1,30 @@
+ANÁLISIS SOLID - OPEN/CLOSED PRINCIPLE (OCP)
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PRINCIPIO:
+
+El principio Open/Closed establece que los componentes de software deben permitir la extensión de su comportamiento sin requerir modificaciones constantes en el código existente.
+
+ANÁLISIS:
+
+En app/services/estudiante_service.py se encuentran validaciones específicas de email y matrícula dentro de las funciones crear_estudiante() y actualizar_estudiante().
+
+Estas validaciones están implementadas directamente en las funciones del servicio.
+
+PROBLEMA IDENTIFICADO:
+
+La incorporación de nuevas reglas de validación requiere modificar las funciones existentes, lo que puede aumentar su complejidad y dificultar el mantenimiento.
+
+NIVEL DE CUMPLIMIENTO:
+
+Parcial.
+
+MEJORA PROPUESTA:
+
+Extraer las validaciones a métodos o componentes específicos que permitan incorporar nuevas reglas de manera más organizada y reutilizable.
+
+CONCLUSIÓN:
+
+EduGestión presenta oportunidades de mejora en el cumplimiento del principio OCP, especialmente en la organización y extensibilidad de las validaciones de negocio.

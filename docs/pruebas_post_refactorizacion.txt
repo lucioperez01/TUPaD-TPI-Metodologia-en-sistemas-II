@@ -1,0 +1,59 @@
+
+RESULTADOS DE PRUEBAS POSTERIORES A LAS REFACTORIZACIONES
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+OBJETIVO:
+
+Verificar que las refactorizaciones realizadas mantengan el comportamiento esperado del sistema.
+
+HERRAMIENTAS:
+
+Python 3.11.9
+Pytest 9.2.0
+
+COMANDO EJECUTADO:
+
+python -m pytest tests/test_main.py -v
+
+RESULTADOS:
+
+Total de pruebas: 18
+Pruebas aprobadas: 18
+Pruebas fallidas: 0
+Porcentaje de aprobación: 100 %
+Tiempo de ejecución: 0.82 segundos.
+
+PRUEBAS REALIZADAS:
+
+1. Inicio del sistema.
+2. Verificación del estado del sistema.
+3. Listado de estudiantes.
+4. Listado de áreas.
+5. Listado de responsables.
+6. Listado de solicitudes.
+7. Operaciones CRUD de estudiantes.
+8. Operaciones CRUD de áreas.
+9. Operaciones CRUD de responsables.
+10. Operaciones CRUD de solicitudes.
+11. Validación de email duplicado.
+12. Validación de matrícula duplicada.
+13. Validación de email duplicado durante una actualización.
+14. Validación de estudiante inexistente en una solicitud.
+15. Validación de área inexistente en una solicitud.
+16. Comprobación de prioridad y estado predeterminados.
+17. Validación de matrícula duplicada durante una actualización.
+18. Validación de responsable inexistente en una solicitud.
+
+ADVERTENCIAS:
+
+Se registró una advertencia de compatibilidad de httpx con Starlette TestClient. No afectó la ejecución ni los resultados de las pruebas.
+
+CONCLUSIÓN:
+
+Las 18 pruebas automatizadas finalizaron correctamente.
+
+Los resultados permiten comprobar que las funcionalidades verificadas continúan operativas después de las refactorizaciones realizadas.
+
+Además, se amplió la cobertura de las pruebas incorporando verificaciones específicas de duplicados, referencias y valores predeterminados.

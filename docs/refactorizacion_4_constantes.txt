@@ -1,0 +1,55 @@
+
+REFACTORIZACIÓN 4 - CENTRALIZACIÓN DE VALORES
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PROBLEMA ORIGINAL:
+
+Los valores predeterminados "Media" y "Pendiente" estaban escritos directamente en diferentes partes del código.
+
+Esto podía generar inconsistencias si se necesitaba modificar alguno de esos valores.
+
+CAMBIO REALIZADO:
+
+Se creó el archivo app/core/constants.py para centralizar los valores:
+
+- PRIORIDAD_PREDETERMINADA = "Media"
+- ESTADO_INICIAL_SOLICITUD = "Pendiente"
+
+Se modificaron los siguientes archivos para utilizar las constantes:
+
+- app/models/entities.py
+- app/services/solicitud_service.py
+- app/schemas/solicitud.py
+
+TÉCNICA APLICADA:
+
+Centralización de valores y eliminación de literales duplicados.
+
+ARCHIVOS MODIFICADOS:
+
+- app/core/constants.py
+- app/models/entities.py
+- app/services/solicitud_service.py
+- app/schemas/solicitud.py
+
+RESULTADO:
+
+Los valores predeterminados quedaron definidos en un único lugar y pueden reutilizarse en diferentes componentes del sistema.
+
+PRUEBAS:
+
+Comando ejecutado:
+
+python -m pytest tests/test_main.py -v
+
+RESULTADO OBTENIDO:
+
+10 pruebas aprobadas.
+0 pruebas fallidas.
+1 advertencia de compatibilidad de httpx con Starlette TestClient.
+
+CONCLUSIÓN:
+
+La refactorización permitió centralizar valores predeterminados, reducir la repetición de literales y facilitar futuros cambios en el sistema.

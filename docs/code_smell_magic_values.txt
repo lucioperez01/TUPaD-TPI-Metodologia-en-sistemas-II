@@ -1,0 +1,50 @@
+CODE SMELL: MAGIC VALUES
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+ARCHIVOS ANALIZADOS:
+
+- app/models/entities.py
+- app/schemas/solicitud.py
+- app/services/solicitud_service.py
+- tests/test_main.py
+
+EVIDENCIA:
+
+1. app/models/entities.py:
+prioridad: str = Field(default="Media", max_length=20)
+estado: str = Field(default="Pendiente", max_length=30)
+
+2. app/schemas/solicitud.py:
+prioridad: str = Field(default="Media", max_length=20)
+
+3. app/services/solicitud_service.py:
+estado="Pendiente"
+
+4. tests/test_main.py:
+Se utiliza "Media" como valor de prioridad en los datos de prueba.
+
+PROBLEMA:
+
+Los valores predeterminados de prioridad y estado se encuentran escritos directamente en diferentes componentes del sistema, sin una definición centralizada.
+
+IMPACTO:
+
+Si se necesita modificar un valor predeterminado, es necesario revisar distintos archivos, aumentando el esfuerzo de mantenimiento.
+
+RIESGO:
+
+Pueden producirse inconsistencias entre los modelos, esquemas y lógica de negocio si los valores no se actualizan de manera uniforme.
+
+PRIORIDAD:
+
+Media.
+
+MEJORA PROPUESTA:
+
+Centralizar los valores predeterminados mediante constantes o enumeraciones, evitando repetir literales en distintos componentes.
+
+CONCLUSIÓN:
+
+Se identificó la utilización de valores literales repetidos para representar estados y prioridades predeterminados, lo que constituye una oportunidad de mejora en el mantenimiento del sistema.

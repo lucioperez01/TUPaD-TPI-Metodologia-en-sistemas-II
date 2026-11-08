@@ -1,0 +1,49 @@
+CODE SMELL: INCONSISTENT ERROR HANDLING
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+ARCHIVOS ANALIZADOS:
+
+- app/routers/estudiantes.py
+- app/routers/areas.py
+- app/routers/responsables.py
+- app/routers/solicitudes.py
+
+PROBLEMA:
+
+Los cuatro routers capturan excepciones genéricas del tipo ValueError y las convierten en diferentes códigos de estado HTTP según cada implementación.
+
+EVIDENCIA:
+
+1. ESTUDIANTES:
+En actualizar_estudiante(), cualquier ValueError se convierte en HTTP 404, incluso cuando el problema es un email o matrícula duplicados.
+
+2. ÁREAS:
+En actualizar_area(), cualquier ValueError se convierte en HTTP 404, incluso cuando el nombre del área ya está registrado.
+
+3. RESPONSABLES:
+En actualizar_responsable(), cualquier ValueError se convierte en HTTP 400, incluso cuando el responsable solicitado no existe.
+
+4. SOLICITUDES:
+En actualizar_solicitud(), cualquier ValueError se convierte en HTTP 400, incluso cuando la solicitud solicitada no existe.
+
+IMPACTO:
+
+La API puede devolver códigos HTTP incorrectos para determinadas situaciones, dificultando la interpretación de errores por parte del frontend y de otros consumidores del sistema.
+
+RIESGO:
+
+Se pueden generar respuestas inconsistentes y complicar el tratamiento de errores, las pruebas y el mantenimiento de la aplicación.
+
+PRIORIDAD:
+
+Alta.
+
+MEJORA PROPUESTA:
+
+Implementar un manejo de excepciones más específico y uniforme, diferenciando los errores de recursos inexistentes, conflictos de datos y validaciones incorrectas.
+
+CONCLUSIÓN:
+
+El análisis de los cuatro routers permitió identificar inconsistencias en la conversión de excepciones internas a códigos de estado HTTP.

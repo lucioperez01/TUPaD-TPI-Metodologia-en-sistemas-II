@@ -1,0 +1,30 @@
+ANÁLISIS SOLID - LISKOV SUBSTITUTION PRINCIPLE (LSP)
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PRINCIPIO:
+
+El principio Liskov establece que los objetos de una clase derivada deben poder sustituir a los objetos de su clase base sin alterar el comportamiento esperado del sistema.
+
+ANÁLISIS:
+
+Se analizaron las entidades Estudiante, Area, Responsable y Solicitud, definidas en app/models/entities.py.
+
+Las entidades heredan directamente de SQLModel y no presentan una jerarquía de herencia entre clases propias del dominio.
+
+RESULTADO:
+
+No se identificaron problemas concretos relacionados con la sustitución de clases derivadas por sus clases base.
+
+NIVEL DE CUMPLIMIENTO:
+
+No evaluable de manera significativa en la estructura actual del dominio, debido a la ausencia de una jerarquía de herencia propia.
+
+MEJORA PROPUESTA:
+
+No se considera necesaria una modificación específica para este principio en el estado actual del sistema.
+
+CONCLUSIÓN:
+
+No se encontraron evidencias suficientes para afirmar un incumplimiento del principio LSP en EduGestión.

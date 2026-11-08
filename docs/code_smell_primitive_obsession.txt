@@ -1,0 +1,36 @@
+CODE SMELL: PRIMITIVE OBSESSION
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Archivo: app/models/entities.py
+Clase: Solicitud
+
+EVIDENCIA:
+
+tipo: str = Field(max_length=80)
+prioridad: str = Field(default="Media", max_length=20)
+estado: str = Field(default="Pendiente", max_length=30)
+
+PROBLEMA:
+
+Los atributos tipo, prioridad y estado utilizan cadenas de texto comunes, sin restricciones que definan un conjunto específico de valores permitidos.
+
+IMPACTO:
+
+El sistema permite almacenar diferentes valores para representar una misma categoría, lo que puede generar inconsistencias en la información y dificultades para realizar búsquedas, filtros y reportes.
+
+RIESGO:
+
+La incorporación de valores incorrectos o escritos de distintas maneras puede afectar la integridad y consistencia de los datos.
+
+PRIORIDAD:
+
+Media.
+
+MEJORA PROPUESTA:
+
+Implementar enumeraciones (Enum) o tipos restringidos para definir los valores válidos de tipo, prioridad y estado.
+
+CONCLUSIÓN:
+
+Se identificó el uso de tipos primitivos para representar categorías del dominio que requieren valores controlados y específicos.

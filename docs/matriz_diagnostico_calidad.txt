@@ -1,0 +1,65 @@
+MATRIZ GENERAL DE DIAGNÓSTICO DE CALIDAD
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+1. HARDCODED CONFIGURATION
+Archivo: app/database/connection.py
+Prioridad: Media
+Problema: Configuración de base de datos definida directamente en el código.
+Mejora: Externalizar la configuración mediante variables de entorno.
+
+2. DUPLICATE CODE
+Archivos: app/repositories/
+Prioridad: Alta
+Problema: Repetición de operaciones CRUD en cuatro repositorios.
+Mejora: Implementar un repositorio genérico reutilizable.
+
+3. INEFFICIENT DATA ACCESS
+Archivos: app/services/estudiante_service.py
+         app/services/area_service.py
+         app/services/responsable_service.py
+Prioridad: Media
+Problema: Recuperación de todos los registros para validar datos específicos.
+Mejora: Implementar consultas específicas mediante SQLModel.
+
+4. INCONSISTENT ERROR HANDLING
+Archivos: app/routers/
+Prioridad: Alta
+Problema: Conversión inconsistente de ValueError a códigos HTTP.
+Mejora: Implementar excepciones específicas y uniformes.
+
+5. PRIMITIVE OBSESSION
+Archivo: app/models/entities.py
+Prioridad: Media
+Problema: Uso de cadenas libres para tipo, prioridad y estado.
+Mejora: Incorporar enumeraciones o tipos restringidos.
+
+6. DATA CLUMPS
+Archivo: app/services/solicitud_service.py
+Prioridad: Media
+Problema: Identificadores relacionados transmitidos como parámetros individuales.
+Mejora: Evaluar Introduce Parameter Object.
+
+7. MAGIC VALUES
+Archivos: app/models/entities.py
+         app/schemas/solicitud.py
+         app/services/solicitud_service.py
+Prioridad: Media
+Problema: Valores predeterminados repetidos en distintos componentes.
+Mejora: Centralizar constantes o enumeraciones.
+
+8. INCONSISTENT DATA NORMALIZATION
+Archivos: app/services/estudiante_service.py
+         app/services/area_service.py
+         app/services/responsable_service.py
+Prioridad: Media
+Problema: Diferentes criterios de comparación y normalización.
+Mejora: Definir una estrategia uniforme de normalización.
+
+OBSERVACIONES ADICIONALES:
+
+- Se detectó el uso de @app.on_event("startup"), posteriormente reemplazado por lifespan.
+- Se detectó y corrigió un problema de zona horaria en fecha_creacion.
+- Se identificó la ausencia de documentación inicial en README.md.
+- Las pruebas automatizadas posteriores a las correcciones ejecutaron correctamente 10 pruebas.

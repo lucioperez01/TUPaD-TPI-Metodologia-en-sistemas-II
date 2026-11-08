@@ -1,0 +1,63 @@
+
+COMPARACIÓN DE PRUEBAS - ESTADO INICIAL Y REFACTORIZADO
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+1. ESTADO INICIAL
+
+Herramienta: Pytest 9.2.0
+Python: 3.11.9
+
+Pruebas ejecutadas: 6
+Pruebas aprobadas: 6
+Pruebas fallidas: 0
+Advertencias: 3
+Tiempo de ejecución: 2.74 segundos.
+
+Advertencias identificadas:
+- Compatibilidad entre Starlette TestClient y HTTPX.
+- Uso de on_event("startup") obsoleto en FastAPI.
+- Advertencia adicional relacionada con el mecanismo de inicio de FastAPI.
+
+2. ESTADO POSTERIOR A LAS REFACTORIZACIONES
+
+Herramienta: Pytest 9.2.0
+Python: 3.11.9
+
+Pruebas ejecutadas: 16
+Pruebas aprobadas: 16
+Pruebas fallidas: 0
+Advertencias: 1
+Tiempo de ejecución: 0.78 segundos.
+
+Advertencia identificada:
+- Compatibilidad entre Starlette TestClient y HTTPX.
+
+3. COMPARACIÓN
+
+Estado inicial:
+- 6 pruebas aprobadas.
+- 0 pruebas fallidas.
+- 3 advertencias.
+
+Estado posterior:
+- 16 pruebas aprobadas.
+- 0 pruebas fallidas.
+- 1 advertencia.
+
+Se incorporaron 10 pruebas adicionales para ampliar la cobertura de validaciones y funcionalidades del sistema.
+
+Se redujeron las advertencias registradas de tres a una, eliminándose las advertencias relacionadas con el mecanismo de inicio de FastAPI.
+
+4. CONCLUSIÓN
+
+Las pruebas posteriores permitieron ampliar la cobertura automatizada del sistema y verificar las funcionalidades relacionadas con las refactorizaciones realizadas.
+
+También se comprobó que las advertencias asociadas al mecanismo de inicio de FastAPI dejaron de aparecer después de la modificación de on_event por lifespan.
+
+Los resultados demuestran que las funcionalidades verificadas continúan operativas y que se amplió la cobertura de las pruebas automatizadas.
+
+ACLARACIÓN:
+
+La cantidad de pruebas ejecutadas en ambos estados es diferente. Por lo tanto, los resultados se presentan como evidencias de dos conjuntos de pruebas distintos y no como una comparación directa de porcentajes de aprobación.

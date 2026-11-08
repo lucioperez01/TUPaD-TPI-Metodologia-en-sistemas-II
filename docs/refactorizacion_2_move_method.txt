@@ -1,0 +1,49 @@
+
+REFACTORIZACIÓN 2 - MOVE METHOD
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PROBLEMA ORIGINAL:
+
+El servicio de estudiantes obtenía todos los registros y recorría la colección completa para verificar si un email o una matrícula ya estaban registrados.
+
+Esta responsabilidad generaba consultas innecesarias y mezclaba la lógica de búsqueda con la lógica del servicio.
+
+CAMBIO REALIZADO:
+
+Se incorporaron dos operaciones específicas en estudiante_repository.py:
+
+- obtener_estudiante_por_email()
+- obtener_estudiante_por_matricula()
+
+Luego se modificó estudiante_service.py para utilizar estas operaciones desde la función validar_datos_unicos().
+
+TÉCNICA APLICADA:
+
+Move Method / reasignación de responsabilidades.
+
+ARCHIVOS MODIFICADOS:
+
+- app/repositories/estudiante_repository.py
+- app/services/estudiante_service.py
+
+RESULTADO:
+
+Las búsquedas ahora se realizan mediante consultas específicas a la base de datos, evitando recuperar y recorrer todos los estudiantes para validar duplicados.
+
+PRUEBAS:
+
+Comando ejecutado:
+
+python -m pytest tests/test_main.py -v
+
+RESULTADO OBTENIDO:
+
+10 pruebas aprobadas.
+0 pruebas fallidas.
+1 advertencia de compatibilidad de httpx con Starlette TestClient.
+
+CONCLUSIÓN:
+
+La refactorización permitió mejorar la distribución de responsabilidades entre servicios y repositorios, manteniendo el comportamiento esperado del sistema.

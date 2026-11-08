@@ -1,0 +1,50 @@
+CODE SMELL: INCONSISTENT DATA NORMALIZATION
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+ARCHIVOS ANALIZADOS:
+
+- app/services/estudiante_service.py
+- app/services/area_service.py
+- app/services/responsable_service.py
+- app/schemas/estudiante.py
+- app/schemas/responsable.py
+
+EVIDENCIA:
+
+1. ESTUDIANTES:
+Las comparaciones de email y matrícula se realizan directamente, sin aplicar normalización mediante lower().
+
+2. ÁREAS:
+Las comparaciones de nombres utilizan lower() para evitar diferencias entre mayúsculas y minúsculas.
+
+3. RESPONSABLES:
+Las comparaciones de email utilizan lower() para realizar validaciones sin distinguir mayúsculas y minúsculas.
+
+4. ESQUEMAS:
+Los campos email utilizan EmailStr, que valida el formato del correo, pero no establece una estrategia de normalización común para los servicios.
+
+PROBLEMA:
+
+Los servicios aplican criterios diferentes para comparar datos equivalentes, especialmente en las validaciones de emails, matrículas y nombres.
+
+IMPACTO:
+
+Puede producirse un comportamiento inconsistente al registrar o actualizar información que presenta diferencias únicamente en mayúsculas y minúsculas.
+
+RIESGO:
+
+El sistema podría permitir registros que representen datos equivalentes según las reglas de negocio, dificultando la integridad y consistencia de la información.
+
+PRIORIDAD:
+
+Media.
+
+MEJORA PROPUESTA:
+
+Definir una estrategia uniforme de normalización y comparación de datos, aplicándola de manera consistente en los servicios correspondientes.
+
+CONCLUSIÓN:
+
+Se identificaron diferencias en los criterios de comparación utilizados por los servicios, lo que representa una oportunidad de mejora en la consistencia de las validaciones.

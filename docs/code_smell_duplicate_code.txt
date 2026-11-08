@@ -1,0 +1,50 @@
+CODE SMELL: DUPLICATE CODE
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+ARCHIVOS ANALIZADOS:
+
+- app/repositories/estudiante_repository.py
+- app/repositories/area_repository.py
+- app/repositories/responsable_repository.py
+- app/repositories/solicitud_repository.py
+
+EVIDENCIA:
+
+Los cuatro repositorios implementan las mismas operaciones CRUD mediante estructuras prácticamente idénticas.
+
+Se repiten las siguientes instrucciones:
+
+- session.add()
+- session.commit()
+- session.refresh()
+- select()
+- session.exec()
+- session.get()
+- setattr()
+- session.delete()
+
+PROBLEMA:
+
+Existe duplicación de lógica en los repositorios de las cuatro entidades del sistema.
+
+IMPACTO:
+
+La repetición aumenta el esfuerzo de mantenimiento y puede generar inconsistencias cuando se realizan modificaciones en las operaciones comunes.
+
+RIESGO:
+
+Una corrección o mejora aplicada en un repositorio podría no replicarse correctamente en los demás.
+
+PRIORIDAD:
+
+Alta.
+
+MEJORA PROPUESTA:
+
+Implementar un repositorio genérico que permita reutilizar las operaciones CRUD comunes, evitando repetir la misma lógica en cada entidad.
+
+CONCLUSIÓN:
+
+El análisis de los cuatro repositorios permitió identificar un patrón de código duplicado que representa una oportunidad concreta de refactorización.

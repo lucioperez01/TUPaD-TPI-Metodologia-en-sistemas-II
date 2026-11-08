@@ -1,0 +1,34 @@
+INCIDENCIA DETECTADA - PRUEBA CRUD DE SOLICITUDES
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Prueba: test_crud_solicitudes
+
+RESULTADO:
+9 pruebas aprobadas.
+1 prueba fallida.
+3 advertencias.
+
+ERROR DETECTADO:
+
+Al intentar crear una solicitud, SQLAlchemy genera un StatementError debido a que el campo fecha_creacion recibe un datetime sin información de zona horaria.
+
+UBICACIÓN:
+app/models/entities.py
+Clase: Solicitud
+Campo: fecha_creacion
+
+Código original:
+fecha_creacion: datetime = Field(default_factory=datetime.now)
+
+CAUSA:
+datetime.now() genera una fecha sin información de zona horaria, mientras que el tipo de fecha utilizado por SQLModel/SQLAlchemy exige información de zona horaria.
+
+IMPACTO:
+La creación de solicitudes puede fallar al persistir el registro en la base de datos.
+
+MEJORA PROPUESTA:
+Utilizar fechas con zona horaria, por ejemplo datetime.now(timezone.utc), y mantener coherencia entre el tipo de dato y su almacenamiento.
+
+CONCLUSIÓN:
+La prueba automatizada permitió detectar un problema que no había sido identificado durante las pruebas manuales iniciales.

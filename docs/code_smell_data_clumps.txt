@@ -1,0 +1,39 @@
+CODE SMELL: DATA CLUMPS
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Archivo: app/services/solicitud_service.py
+
+EVIDENCIA:
+
+La función validar_referencias() recibe los siguientes parámetros relacionados:
+
+- estudiante_id
+- area_id
+- responsable_id
+
+Estos identificadores representan las referencias asociadas a una solicitud y se utilizan conjuntamente durante su creación y actualización.
+
+PROBLEMA:
+
+Los identificadores relacionados se transmiten como parámetros individuales, aunque representan un conjunto de referencias pertenecientes a una misma solicitud.
+
+IMPACTO:
+
+La utilización repetida de estos parámetros puede dificultar la lectura, el mantenimiento y la evolución de las funciones que trabajan con las referencias.
+
+RIESGO:
+
+La incorporación de nuevas referencias podría aumentar la cantidad de parámetros y la complejidad de las llamadas entre funciones.
+
+PRIORIDAD:
+
+Media.
+
+MEJORA PROPUESTA:
+
+Aplicar la técnica Introduce Parameter Object mediante la creación de una estructura que agrupe las referencias de estudiante, área y responsable.
+
+CONCLUSIÓN:
+
+Se identificó un posible patrón Data Clumps en la validación de referencias de solicitudes, que representa una oportunidad de simplificación mediante un objeto de parámetros.

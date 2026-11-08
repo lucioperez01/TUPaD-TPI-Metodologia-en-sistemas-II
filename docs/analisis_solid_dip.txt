@@ -1,0 +1,38 @@
+ANÁLISIS SOLID - DEPENDENCY INVERSION PRINCIPLE (DIP)
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PRINCIPIO:
+
+El principio DIP establece que los módulos de alto nivel no deben depender directamente de módulos de bajo nivel. Ambos deben depender de abstracciones.
+
+ANÁLISIS:
+
+Se analizaron los servicios y repositorios del sistema EduGestión.
+
+En los servicios se utilizan importaciones directas de los repositorios concretos, por ejemplo:
+
+from app.repositories import estudiante_repository
+
+Los servicios invocan directamente las funciones implementadas en dichos módulos.
+
+PROBLEMA IDENTIFICADO:
+
+Existe una dependencia directa entre la lógica de negocio y las implementaciones concretas de persistencia.
+
+IMPACTO:
+
+Los cambios en la implementación de los repositorios pueden requerir modificaciones en los servicios, dificultando la flexibilidad y las pruebas aisladas.
+
+NIVEL DE CUMPLIMIENTO:
+
+Parcial.
+
+MEJORA PROPUESTA:
+
+Incorporar abstracciones o contratos que permitan desacoplar los servicios de las implementaciones concretas de los repositorios.
+
+CONCLUSIÓN:
+
+EduGestión presenta una oportunidad de mejora en el cumplimiento del principio DIP debido a las dependencias directas entre los servicios y los repositorios concretos.

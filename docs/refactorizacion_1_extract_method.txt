@@ -1,0 +1,42 @@
+REFACTORIZACIÓN 1 - EXTRACT METHOD
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PROBLEMA ORIGINAL:
+
+En el archivo estudiante_service.py se repetía la lógica de validación de email y matrícula en las funciones crear_estudiante() y actualizar_estudiante().
+
+CAMBIO REALIZADO:
+
+Se extrajo la lógica repetida a una nueva función denominada validar_datos_unicos().
+
+Esta función centraliza las comprobaciones de duplicados y permite reutilizar la validación tanto al crear como al actualizar estudiantes.
+
+TÉCNICA APLICADA:
+
+Extract Method.
+
+ARCHIVO MODIFICADO:
+
+app/services/estudiante_service.py
+
+RESULTADO:
+
+Se redujo la duplicación de código y se mejoró la legibilidad de las funciones de creación y actualización.
+
+PRUEBAS:
+
+Se ejecutó el comando:
+
+python -m pytest tests/test_main.py -v
+
+RESULTADO OBTENIDO:
+
+10 pruebas aprobadas.
+0 pruebas fallidas.
+1 advertencia de compatibilidad de httpx con Starlette TestClient.
+
+CONCLUSIÓN:
+
+La refactorización se realizó correctamente y se mantuvo el comportamiento esperado del sistema, de acuerdo con las pruebas ejecutadas.

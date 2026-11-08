@@ -1,0 +1,33 @@
+PRUEBAS AUTOMATIZADAS - ESTADO INICIAL
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Python: 3.11.9
+Pytest: 9.2.0
+
+Comando:
+python -m pytest tests/test_main.py -v
+
+RESULTADOS:
+1. test_inicio: PASSED
+2. test_verificar_estado: PASSED
+3. test_listar_estudiantes: PASSED
+4. test_listar_areas: PASSED
+5. test_listar_responsables: PASSED
+6. test_listar_solicitudes: PASSED
+7. test_crud_estudiantes: PASSED
+
+RESUMEN:
+7 pruebas aprobadas.
+0 pruebas fallidas.
+3 advertencias.
+Tiempo de ejecución: 0.49 segundos.
+
+OBSERVACIÓN:
+Las pruebas utilizan una base de datos SQLite temporal en memoria.
+Se verificaron las operaciones de creación, consulta, actualización y eliminación de estudiantes.
+
+CONCLUSIÓN:
+Las siete pruebas automatizadas finalizaron correctamente.
+El CRUD de estudiantes funciona según lo esperado.
+Se mantienen tres advertencias relacionadas con TestClient y el mecanismo de inicio de FastAPI.

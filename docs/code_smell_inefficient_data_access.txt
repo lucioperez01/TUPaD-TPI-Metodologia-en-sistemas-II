@@ -1,0 +1,49 @@
+CODE SMELL: INEFFICIENT DATA ACCESS
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+ARCHIVOS ANALIZADOS:
+
+- app/services/estudiante_service.py
+- app/services/area_service.py
+- app/services/responsable_service.py
+- app/services/solicitud_service.py
+
+EVIDENCIA:
+
+1. ESTUDIANTES:
+En crear_estudiante() y actualizar_estudiante() se recuperan todos los estudiantes para comprobar si existen emails o matrículas duplicadas.
+
+2. ÁREAS:
+En crear_area() y actualizar_area() se recuperan todas las áreas para comprobar si existe un nombre duplicado.
+
+3. RESPONSABLES:
+En crear_responsable() y actualizar_responsable() se recuperan todos los responsables para comprobar si existe un email duplicado.
+
+4. SOLICITUDES:
+No se identificó este problema. El servicio utiliza session.get() para verificar referencias específicas mediante sus identificadores.
+
+PROBLEMA:
+
+Los servicios de estudiantes, áreas y responsables recuperan todos los registros de sus respectivas entidades cuando solamente necesitan comprobar la existencia de un dato específico.
+
+IMPACTO:
+
+Se realizan consultas y recorridos innecesarios, aumentando el trabajo de la aplicación a medida que crece la cantidad de registros.
+
+RIESGO:
+
+En escenarios con grandes volúmenes de información, esta implementación puede afectar el rendimiento y los tiempos de respuesta.
+
+PRIORIDAD:
+
+Media.
+
+MEJORA PROPUESTA:
+
+Implementar consultas específicas mediante SQLModel para verificar la existencia de emails, matrículas y nombres, evitando recuperar y recorrer todos los registros.
+
+CONCLUSIÓN:
+
+El análisis de los cuatro servicios permitió identificar un patrón de acceso ineficiente a los datos en tres módulos del sistema: estudiantes, áreas y responsables.

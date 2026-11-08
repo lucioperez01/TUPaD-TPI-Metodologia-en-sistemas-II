@@ -1,0 +1,52 @@
+
+REFACTORIZACIÓN 3 - INTRODUCE PARAMETER OBJECT
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PROBLEMA ORIGINAL:
+
+La función validar_referencias() recibía individualmente los identificadores del estudiante, área y responsable.
+
+Esto generaba una firma con varios parámetros relacionados entre sí.
+
+CAMBIO REALIZADO:
+
+Se creó el modelo SolicitudReferencias en el archivo referencias.py.
+
+Este objeto agrupa los siguientes atributos:
+
+- estudiante_id
+- area_id
+- responsable_id
+
+Posteriormente, se modificó solicitud_service.py para utilizar el nuevo objeto en las operaciones de creación y actualización de solicitudes.
+
+TÉCNICA APLICADA:
+
+Introduce Parameter Object.
+
+ARCHIVOS MODIFICADOS:
+
+- app/schemas/referencias.py
+- app/services/solicitud_service.py
+
+RESULTADO:
+
+Se simplificó la firma de validar_referencias() y se agruparon los datos relacionados en una estructura específica.
+
+PRUEBAS:
+
+Comando ejecutado:
+
+python -m pytest tests/test_main.py -v
+
+RESULTADO OBTENIDO:
+
+10 pruebas aprobadas.
+0 pruebas fallidas.
+1 advertencia de compatibilidad de httpx con Starlette TestClient.
+
+CONCLUSIÓN:
+
+La refactorización permitió mejorar la organización de los parámetros y la legibilidad del servicio de solicitudes, manteniendo el comportamiento esperado del sistema.

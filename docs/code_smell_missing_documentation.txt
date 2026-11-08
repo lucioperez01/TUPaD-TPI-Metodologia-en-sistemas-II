@@ -1,0 +1,33 @@
+HALLAZGO: MISSING DOCUMENTATION
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Archivo: README.md
+
+EVIDENCIA:
+
+El archivo README.md se encuentra vacío y no contiene instrucciones ni información sobre el proyecto.
+
+PROBLEMA:
+
+El repositorio carece de documentación inicial que explique el propósito del sistema, sus tecnologías, instalación, configuración y ejecución.
+
+IMPACTO:
+
+Dificulta que otros desarrolladores comprendan el proyecto y puedan ponerlo en funcionamiento.
+
+RIESGO:
+
+Aumenta el tiempo de incorporación de nuevos colaboradores y dificulta el mantenimiento del sistema.
+
+PRIORIDAD:
+
+Alta.
+
+MEJORA PROPUESTA:
+
+Completar el README.md incluyendo descripción del proyecto, tecnologías utilizadas, requisitos, instalación, configuración, ejecución y pruebas automatizadas.
+
+CONCLUSIÓN:
+
+Se identificó una ausencia de documentación fundamental para facilitar la comprensión, instalación y mantenimiento de EduGestión.

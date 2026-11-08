@@ -1,0 +1,40 @@
+PRUEBAS AUTOMATIZADAS - DESPUÉS DE LA CORRECCIÓN
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Archivo de pruebas: tests/test_main.py
+
+RESULTADO:
+10 pruebas aprobadas.
+0 pruebas fallidas.
+3 advertencias.
+
+PRUEBAS REALIZADAS:
+
+1. Verificación de la página de inicio.
+2. Verificación del estado del sistema.
+3. Listado de estudiantes.
+4. Listado de áreas.
+5. Listado de responsables.
+6. Listado de solicitudes.
+7. Operaciones CRUD de estudiantes.
+8. Operaciones CRUD de áreas.
+9. Operaciones CRUD de responsables.
+10. Operaciones CRUD de solicitudes.
+
+CORRECCIÓN REALIZADA:
+
+Se modificó el campo fecha_creacion de la entidad Solicitud, reemplazando datetime.now() por datetime.now(timezone.utc).
+
+RESULTADO DE LA CORRECCIÓN:
+
+La prueba de creación de solicitudes, que anteriormente fallaba por un problema de zona horaria, ahora finaliza correctamente.
+
+ADVERTENCIAS DETECTADAS:
+
+- Uso de httpx con starlette.testclient, cuya integración presenta una advertencia de obsolescencia.
+- Uso de @app.on_event("startup"), cuya funcionalidad está obsoleta y debe reemplazarse por un manejador lifespan.
+
+CONCLUSIÓN:
+
+Luego de corregir el problema de zona horaria, las diez pruebas automatizadas finalizaron satisfactoriamente. Se comprobó el funcionamiento de los endpoints principales y de las operaciones CRUD de las cuatro entidades del sistema.

@@ -1,0 +1,41 @@
+ANÁLISIS CLEAN CODE - NOMBRES Y LEGIBILIDAD
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+OBJETIVO:
+
+Evaluar la claridad, organización y facilidad de comprensión del código fuente.
+
+ANÁLISIS:
+
+Se revisaron los servicios, repositorios, modelos, esquemas y routers del sistema.
+
+Se identificaron nombres descriptivos relacionados con el dominio del proyecto, como:
+
+- crear_estudiante()
+- obtener_estudiantes()
+- actualizar_estudiante()
+- eliminar_estudiante()
+- estudiante_existente
+- nuevos_datos
+
+RESULTADOS:
+
+El código utiliza nombres comprensibles y mantiene una organización por responsabilidades.
+
+Se identificaron oportunidades de mejora relacionadas con:
+
+- Código duplicado en los repositorios.
+- Validaciones repetidas en los servicios.
+- Acceso ineficiente a los datos.
+- Configuración fija dentro del código fuente.
+- Valores predeterminados repetidos.
+
+EVALUACIÓN GENERAL:
+
+El proyecto presenta una estructura legible y nombres descriptivos, aunque existen aspectos que pueden mejorarse para facilitar el mantenimiento y la evolución del sistema.
+
+CONCLUSIÓN:
+
+EduGestión cumple parcialmente con las buenas prácticas de Clean Code. La organización y los nombres son adecuados, pero se requieren mejoras en reutilización, configuración y organización de determinadas responsabilidades.

@@ -1,0 +1,29 @@
+REFACTORIZACIÓN - USO DE LIFESPAN
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Archivo modificado: app/main.py
+
+PROBLEMA DETECTADO:
+
+La aplicación utilizaba el decorador @app.on_event("startup") para ejecutar la inicialización de la base de datos.
+
+Esta funcionalidad está obsoleta en FastAPI y genera advertencias durante la ejecución de las pruebas.
+
+CAMBIO REALIZADO:
+
+Se reemplazó el mecanismo anterior por un administrador de contexto asíncrono mediante asynccontextmanager y lifespan.
+
+La función create_db_and_tables() ahora se ejecuta al iniciar el ciclo de vida de la aplicación.
+
+RESULTADO:
+
+Se ejecutaron nuevamente las pruebas automatizadas.
+
+Resultado: 10 pruebas aprobadas y 0 fallidas.
+
+También desaparecieron las advertencias relacionadas con @app.on_event("startup").
+
+BENEFICIO:
+
+Se utiliza el mecanismo recomendado actualmente por FastAPI para gestionar el ciclo de vida de la aplicación, mejorando la compatibilidad y el mantenimiento del código.

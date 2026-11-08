@@ -1,0 +1,32 @@
+ANÁLISIS SOLID - INTERFACE SEGREGATION PRINCIPLE (ISP)
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+
+PRINCIPIO:
+
+El principio ISP establece que los componentes no deben depender de interfaces que no utilizan o que contienen funcionalidades innecesarias para sus responsabilidades.
+
+ANÁLISIS:
+
+Se analizaron los repositorios de estudiantes, áreas, responsables y solicitudes.
+
+Cada repositorio implementa operaciones CRUD específicas para su entidad.
+
+No se identificaron interfaces extensas ni dependencias obligatorias de métodos que los componentes no necesiten.
+
+RESULTADO:
+
+La organización actual no presenta evidencias concretas de incumplimiento del principio ISP.
+
+NIVEL DE CUMPLIMIENTO:
+
+Adecuado en la estructura actual, con oportunidades de mejora en la reutilización de operaciones comunes.
+
+MEJORA PROPUESTA:
+
+Mantener las responsabilidades específicas de cada repositorio y evaluar abstracciones reutilizables que no obliguen a los componentes a depender de funcionalidades innecesarias.
+
+CONCLUSIÓN:
+
+No se encontraron incumplimientos concretos del principio ISP. La estructura actual mantiene operaciones específicas para cada entidad.

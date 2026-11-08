@@ -1,0 +1,35 @@
+PRUEBAS AUTOMATIZADAS - ESTADO INICIAL
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Herramienta: Pytest 9.2.0
+Python: 3.11.9
+
+Comando ejecutado:
+python -m pytest tests/test_main.py -v
+
+RESULTADOS:
+
+tests/test_main.py::test_inicio PASSED
+tests/test_main.py::test_verificar_estado PASSED
+tests/test_main.py::test_listar_estudiantes PASSED
+tests/test_main.py::test_listar_areas PASSED
+tests/test_main.py::test_listar_responsables PASSED
+tests/test_main.py::test_listar_solicitudes PASSED
+
+RESUMEN:
+6 pruebas aprobadas.
+0 pruebas fallidas.
+3 advertencias.
+Tiempo de ejecución: 2.74 segundos.
+
+ADVERTENCIAS DETECTADAS:
+
+1. Advertencia de compatibilidad entre Starlette TestClient y HTTPX.
+2. Uso de on_event("startup") marcado como obsoleto en FastAPI.
+3. Advertencia adicional relacionada con el mecanismo de inicio de FastAPI.
+
+CONCLUSIÓN:
+
+Las seis pruebas automatizadas se ejecutaron correctamente.
+Los endpoints principales de EduGestión respondieron según lo esperado.
+Se registraron tres advertencias que serán consideradas durante el proceso de refactorización.

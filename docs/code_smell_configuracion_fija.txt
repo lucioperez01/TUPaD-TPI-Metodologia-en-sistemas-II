@@ -1,0 +1,35 @@
+CODE SMELL: HARDCODED CONFIGURATION
+
+Proyecto: EduGestión
+Fecha: 07/11/2026
+Archivo: app/database/connection.py
+
+EVIDENCIA:
+
+DATABASE_URL = "sqlite:///./edugestion.db"
+
+engine = create_engine(
+    DATABASE_URL,
+    echo=True,
+    connect_args={"check_same_thread": False}
+)
+
+PROBLEMA:
+
+La URL de conexión a la base de datos y la configuración del registro SQL están definidas directamente en el código fuente.
+
+IMPACTO:
+
+Los cambios de configuración requieren modificar el código. Esto dificulta adaptar el sistema a diferentes entornos y reduce su flexibilidad.
+
+RIESGO:
+
+Una configuración inadecuada puede provocar problemas de mantenimiento, exposición innecesaria de información en los registros o dificultades al desplegar la aplicación.
+
+PRIORIDAD:
+
+Media.
+
+MEJORA PROPUESTA:
+
+Externalizar los parámetros de configuración mediante variables de entorno, utilizando un archivo .env para el entorno local y evitando almacenar configuraciones específicas dentro del código fuente.
