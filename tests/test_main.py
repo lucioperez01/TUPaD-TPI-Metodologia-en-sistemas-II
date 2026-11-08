@@ -202,7 +202,7 @@ def test_crear_estudiante_con_email_duplicado(client):
     )
 
     assert primera.status_code == 201
-    assert segunda.status_code == 400
+    assert segunda.status_code == 409
 
 
 def test_crear_estudiante_con_matricula_duplicada(client):
@@ -220,7 +220,7 @@ def test_crear_estudiante_con_matricula_duplicada(client):
     )
 
     assert primera.status_code == 201
-    assert segunda.status_code == 400
+    assert segunda.status_code == 409
 
 
 def test_actualizar_estudiante_con_email_duplicado(client):
@@ -253,7 +253,7 @@ def test_actualizar_estudiante_con_email_duplicado(client):
 
     assert primero.status_code == 201
     assert segundo.status_code == 201
-    assert respuesta.status_code == 404
+    assert respuesta.status_code == 409
 
 
 def test_crear_solicitud_con_estudiante_inexistente(client):
@@ -365,7 +365,7 @@ def test_actualizar_estudiante_con_matricula_duplicada(client):
 
     assert primero.status_code == 201
     assert segundo.status_code == 201
-    assert respuesta.status_code == 404
+    assert respuesta.status_code == 409
 
 
 def test_crear_solicitud_con_responsable_inexistente(client):

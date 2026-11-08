@@ -1,5 +1,6 @@
 from sqlmodel import Session
 
+from app.core.exceptions import RecursoDuplicadoError, RecursoNoEncontradoError
 from app.models import Area
 from app.repositories import area_repository
 from app.schemas.area import AreaCreate, AreaUpdate
@@ -10,7 +11,7 @@ def crear_area(session: Session, datos: AreaCreate):
 
     for area in areas_existentes:
         if area.nombre.lower() == datos.nombre.lower():
-            raise ValueError("Ya existe un área con ese nombre.")
+            raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
 
     nueva_area = Area(
         nombre=datos.nombre,
@@ -28,7 +29,7 @@ def obtener_area_por_id(session: Session, area_id: int):
     area = area_repository.obtener_area_por_id(session, area_id)
 
     if area is None:
-        raise ValueError("No se encontró el área solicitada.")
+        raise RecursoNoEncontradoError("No se encontró el área solicitada.")
 
     return area
 
@@ -48,7 +49,7 @@ def actualizar_area(
             if existente.id != area_id and (
                 existente.nombre.lower() == nuevos_datos["nombre"].lower()
             ):
-                raise ValueError("Ya existe un área con ese nombre.")
+                raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
 
     return area_repository.actualizar_area(
         session,

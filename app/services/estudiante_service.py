@@ -1,6 +1,7 @@
 
 from sqlmodel import Session
 
+from app.core.exceptions import RecursoDuplicadoError, RecursoNoEncontradoError
 from app.models import Estudiante
 from app.repositories import estudiante_repository
 from app.schemas.estudiante import (
@@ -23,7 +24,7 @@ def validar_datos_unicos(
         )
 
         if estudiante is not None:
-            raise ValueError("Ese email ya está registrado.")
+            raise RecursoDuplicadoError("Ese email ya está registrado.")
 
     if matricula is not None:
         estudiante = estudiante_repository.obtener_estudiante_por_matricula(
@@ -33,7 +34,7 @@ def validar_datos_unicos(
         )
 
         if estudiante is not None:
-            raise ValueError("Esa matrícula ya está registrada.")
+            raise RecursoDuplicadoError("Esa matrícula ya está registrada.")
 
 
 def crear_estudiante(session: Session, datos: EstudianteCreate):
@@ -67,7 +68,7 @@ def obtener_estudiante_por_id(session: Session, estudiante_id: int):
     )
 
     if estudiante is None:
-        raise ValueError("No se encontró el estudiante solicitado.")
+        raise RecursoNoEncontradoError("No se encontró el estudiante solicitado.")
 
     return estudiante
 
