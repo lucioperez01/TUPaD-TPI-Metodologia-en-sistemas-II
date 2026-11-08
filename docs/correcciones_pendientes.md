@@ -306,15 +306,130 @@ $ pytest tests/test_main.py -v
 
 ---
 
-## Problema 4: [PRÓXIMO]
+## Problema 4: Configuración de Base de Datos Hardcodeada
+
+### Diagnóstico
+
+**Archivo afectado:**
+- `app/database/connection.py` líneas 4-10
+
+**Problema:**
+La URL de la base de datos y la configuración de `echo` estaban hardcodeadas en el código. Esto significa:
+- No se puede cambiar la configuración sin modificar el código
+- No se puede usar diferentes bases de datos por entorno (dev, test, prod)
+- `echo=True` siempre activo genera ruido excesivo en consola
+
+**Impacto:**
+- Configuración inflexible
+- Imposibilidad de desplegar en diferentes entornos
+- Logs SQL excesivos que dificultan debugging real
+
+### Código ANTES
+
+```python
+from sqlmodel import Session, SQLModel, create_engine
+
+DATABASE_URL = "sqlite:///./edugestion.db"
+
+engine = create_engine(
+    DATABASE_URL,
+    echo=True,
+    connect_args={"check_same_thread": False}
+)
+```
+
+### Solución aplicada
+
+**1. Crear archivos de configuración:**
+- `.env` (no versionado, para valores reales)
+- `.env.example` (versionado, como plantilla)
+
+```
+DATABASE_URL=sqlite:///./edugestion.db
+DB_ECHO=false
+```
+
+**2. Modificar `connection.py` para usar variables de entorno:**
+
+```python
+import os
+from dotenv import load_dotenv
+from sqlmodel import Session, SQLModel, create_engine
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./edugestion.db")
+DB_ECHO = os.getenv("DB_ECHO", "false").lower() == "true"
+
+engine = create_engine(
+    DATABASE_URL,
+    echo=DB_ECHO,
+    connect_args={"check_same_thread": False}
+)
+```
+
+### Resultado de tests DESPUÉS
+
+```bash
+$ pytest tests/test_main.py -v
+======================== 18 passed, 1 warning in 0.72s =========================
+```
+
+**18/18 tests pasando** sin regresiones.
+
+### Beneficios
+
+| Aspecto | Antes | Después |
+|---------|-------|---------|
+| Configuración | Hardcodeada | Variables de entorno |
+| `echo` | Siempre `True` | Configurable (`false` por defecto) |
+| Flexibilidad | Solo SQLite local | Cualquier URL de DB |
+| Entornos | Mismo para todos | Diferente por entorno |
+| Seguridad | URL expuesta | Configuración externa |
+
+### Archivos creados/modificados
+
+**Creados:**
+- `.env` (no versionado, configuración real)
+- `.env.example` (versionado, plantilla para otros desarrolladores)
+
+**Modificados:**
+- `app/database/connection.py` (usa variables de entorno)
 
 ---
 
-## Resumen de cambios
+## Resumen Final de Correcciones
 
 | # | Problema | Estado | Commit |
-|---|---|---|---|
-| 1 | Error handling inconsistente | ✅ Completado | 0f23052 |
-| 2 | Tests codifican bug | ✅ Completado (incluido en #1) | 0f23052 |
-| 3 | Validaciones ineficientes | ✅ Completado | - |
-| 4 | Configuración DB hardcodeada | 🔲 Pendiente | - |
+|---|----------|--------|--------|
+| 1 | Error handling inconsistente | ✅ Completado | `0f23052` |
+| 2 | Tests codifican bug (incluido en #1) | ✅ Completado | `0f23052` |
+| 3 | Validaciones ineficientes O(n) | ✅ Completado | `c653efe` |
+| 4 | Configuración hardcodeada | ✅ Completado | `pendiente` |
+
+## Beneficios de las correcciones
+
+### Código
+- **HTTP semánticamente correcto**: 409 para duplicados, 404 para no encontrados
+- **Performance mejorada**: queries O(1) en vez de O(n) en memoria
+- **Configuración externa**: fácil cambio entre entornos
+- **Menos ruido**: `echo=False` por defecto
+
+### Arquitectura
+- **Excepciones propias**: separación clara de errores de dominio
+- **Validaciones eficientes**: uso correcto de SQL WHERE
+- **12 factores**: configuración externa según metodología Twelve-Factor App
+
+### Testing
+- **Tests actualizados**: reflejan comportamiento HTTP correcto
+- **Sin regresiones**: 18/18 tests pasando
+- **Cobertura mantenida**: todos los casos de uso verificados
+
+## Próximos pasos sugeridos
+
+1. **Actualizar README.md** con instrucciones de configuración (.env)
+2. **Agregar tests específicos** para las nuevas excepciones propias
+3. **Considerar paginación** en endpoints GET (listar)
+4. **Agregar índices** a campos frecuentemente consultados
+5. **Migraciones con Alembic** en vez de `create_all()`
+

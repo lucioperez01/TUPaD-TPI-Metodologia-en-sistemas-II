@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
 
@@ -23,7 +25,7 @@ router = APIRouter(
 )
 def crear_solicitud(
     datos: SolicitudCreate,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return solicitud_service.crear_solicitud(session, datos)
@@ -33,7 +35,7 @@ def crear_solicitud(
 
 @router.get("/", response_model=list[SolicitudResponse])
 def obtener_solicitudes(
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     return solicitud_service.obtener_solicitudes(session)
 
@@ -41,7 +43,7 @@ def obtener_solicitudes(
 @router.get("/{solicitud_id}", response_model=SolicitudResponse)
 def obtener_solicitud(
     solicitud_id: int,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return solicitud_service.obtener_solicitud_por_id(
@@ -56,7 +58,7 @@ def obtener_solicitud(
 def actualizar_solicitud(
     solicitud_id: int,
     datos: SolicitudUpdate,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return solicitud_service.actualizar_solicitud(
@@ -71,7 +73,7 @@ def actualizar_solicitud(
 @router.delete("/{solicitud_id}")
 def eliminar_solicitud(
     solicitud_id: int,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return solicitud_service.eliminar_solicitud(
