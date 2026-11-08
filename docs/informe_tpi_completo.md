@@ -251,10 +251,24 @@ Se aplicaron **9 refactorings** (5 iniciales + 4 correcciones críticas):
 
 # 11. Anexo: Uso de Inteligencia Artificial
 
-## 11.1 Herramienta Utilizada
-**OpenCode** con modelo **Qwen 3.7 Plus** (opencode-go/qwen3.7-plus)
+## 11.1 Herramientas Utilizadas
 
-## 11.2 Finalidad
+El trabajo se desarrolló en **dos etapas**, cada una con asistencia de diferentes herramientas de IA:
+
+### Primera Etapa (Diagnóstico y 5 Refactorizaciones Iniciales)
+- **Claude** (Anthropic)
+- **ChatGPT** (OpenAI)
+
+**Finalidad:** Análisis de code smells, aplicación de refactorizaciones Extract Method, Move Method, Introduce Parameter Object, consolidación de constantes, y migración a lifespan.
+
+### Segunda Etapa (4 Correcciones Críticas y Documentación)
+- **OpenCode** con modelo **Qwen 3.7 Plus** (opencode-go/qwen3.7-plus)
+
+**Finalidad:** Corrección de error handling, validaciones ineficientes, configuración externa, generación del informe técnico y documentación de evidencias.
+
+## 11.2 Finalidad del Uso
+
+En ambas etapas, la IA se utilizó como herramienta de apoyo para:
 - **Análisis de código:** identificación de code smells y problemas de calidad
 - **Refactoring:** aplicación de técnicas con evidencia antes/después
 - **Testing:** actualización de tests para reflejar comportamiento correcto
@@ -262,24 +276,26 @@ Se aplicaron **9 refactorings** (5 iniciales + 4 correcciones críticas):
 - **Revisión:** validación de cumplimiento de principios SOLID y Clean Code
 
 ## 11.3 Grado de Intervención
-**Alto:** La IA participó activamente en:
-- Diagnóstico inicial del código (identificación de 8 code smells)
-- Planificación de refactorizaciones (9 técnicas aplicadas)
-- Implementación de cambios (código, tests, documentación)
-- Verificación de tests (ejecución y análisis de resultados)
-- Generación de documentación técnica (informe, checklist, comparaciones)
 
-**Supervisión humana:** El equipo revisó todos los cambios, aprobó commits, y validó que las soluciones fueran correctas antes de integrarlas.
+**Alto en ambas etapas:**
+
+**Primera etapa:** La IA participó en el diagnóstico inicial del código (identificación de 8 code smells), planificación de las 5 refactorizaciones iniciales, implementación de cambios, y verificación de tests.
+
+**Segunda etapa:** La IA participó en la corrección de 4 problemas críticos, actualización de tests, y generación de documentación técnica completa.
+
+**Supervisión humana:** El equipo revisó todos los cambios generados por IA, aprobó cada commit, y validó que las soluciones fueran correctas antes de integrarlas al proyecto.
 
 ## 11.4 Evidencia del Intercambio
-El historial completo de la conversación con la IA está disponible en el repositorio, mostrando:
+
+El historial completo de las conversaciones con las herramientas de IA está disponible como anexo en este informe, mostrando:
 - Prompts utilizados para análisis y refactoring
 - Respuestas de la IA con código y explicaciones
 - Iteraciones y ajustes realizados
 - Validación de tests y resultados
 
 ## 11.5 Declaración
-La IA fue utilizada como herramienta de apoyo para comprender conceptos, revisar alternativas y mejorar la calidad del código. **Todo el código fue revisado, entendido y aprobado por el equipo.** La IA no reemplaza la autoría ni la defensa del trabajo.
+
+La IA fue utilizada como herramienta de apoyo para comprender conceptos, revisar alternativas, aplicar refactorizaciones y mejorar la documentación. **Todo el código fue revisado, entendido y aprobado por el equipo.** La IA no reemplaza la autoría ni la defensa del trabajo.
 
 ---
 
