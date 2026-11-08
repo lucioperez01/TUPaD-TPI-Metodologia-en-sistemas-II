@@ -37,6 +37,24 @@ Si PowerShell no permite activar el entorno virtual, se puede invocar
 directamente el ejecutable de `.venv\Scripts\python.exe` en los comandos
 siguientes.
 
+## Configuración
+
+Copiar el archivo de ejemplo y ajustar las variables según el entorno:
+
+```powershell
+copy .env.example .env
+```
+
+Variables disponibles en `.env`:
+
+```env
+DATABASE_URL=sqlite:///./edugestion.db
+DB_ECHO=false
+```
+
+- `DATABASE_URL`: URL de conexión a la base de datos (por defecto SQLite local)
+- `DB_ECHO`: habilitar/deshabilitar logging SQL (false por defecto, true para debugging)
+
 ## Ejecución
 
 ```powershell
@@ -49,11 +67,9 @@ La API queda disponible normalmente en `http://127.0.0.1:8000`.
 - Documentación alternativa: `http://127.0.0.1:8000/redoc`
 - Verificación de estado: `http://127.0.0.1:8000/health`
 
-La aplicación crea las tablas al iniciar. Actualmente la URL de SQLite está
-definida en `app/database/connection.py` como `sqlite:///./edugestion.db`, y
-el registro SQL está habilitado con `echo=True`. Por lo tanto, la configuración
-no se obtiene de variables de entorno todavía. La base local se crea en la
-carpeta desde la que se inicia Uvicorn.
+La aplicación crea las tablas al iniciar. La configuración de base de datos se
+obtiene de variables de entorno (ver sección Configuración). La base local se
+crea en la carpeta desde la que se inicia Uvicorn.
 
 ## Endpoints principales
 
@@ -102,15 +118,22 @@ docs/            Diagnósticos y documentación de refactorizaciones
 El flujo habitual de una operación es: **router → servicio → repositorio →
 base de datos**. Los esquemas validan la información que entra y sale de la API.
 
-## Calidad y mejoras identificadas
+## Calidad y refactorizaciones aplicadas
 
-El diagnóstico y el checklist de revisión se encuentran en `docs/`. Entre las
-mejoras ya reflejadas en el código están el uso de `lifespan` para el inicio de
-FastAPI, la extracción de validaciones de estudiante, las búsquedas específicas
-de email y matrícula de estudiantes, la agrupación de referencias de solicitudes
-y la centralización de algunos valores predeterminados.
+El diagnóstico completo y el checklist de revisión se encuentran en `docs/`.
+Las mejoras ya implementadas incluyen:
 
-El code review también registra oportunidades pendientes: externalizar la
-configuración de base de datos, uniformar el mapeo de errores HTTP, evitar
-consultas completas para validar nombres de áreas y emails de responsables y
-reducir la duplicación CRUD entre repositorios.
+- **Error handling consistente**: uso de excepciones propias (`RecursoNoEncontradoError`,
+  `RecursoDuplicadoError`) para mapear correctamente códigos HTTP (404, 409, 400).
+- **Validaciones eficientes**: queries SQL específicas con `WHERE` en vez de cargar
+  todos los registros y filtrar en memoria.
+- **Configuración externa**: variables de entorno con `python-dotenv` siguiendo
+  Twelve-Factor App.
+- **Inyección de dependencias moderna**: uso de `Annotated` para dependencias de sesión.
+- **Uso de `lifespan`**: reemplazo del deprecated `on_event` para inicialización.
+- **Extracción de validaciones**: métodos dedicados para validación de datos únicos.
+- **Agrupación de parámetros**: `SolicitudReferencias` para manejar referencias relacionadas.
+- **Centralización de constantes**: valores predeterminados en `app/core/constants.py`.
+
+Las correcciones están documentadas con evidencia antes/después en
+`docs/correcciones_pendientes.md`.
