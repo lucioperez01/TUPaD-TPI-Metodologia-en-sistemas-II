@@ -179,7 +179,130 @@ $ pytest tests/test_main.py -v
 
 ---
 
-## Problema 3: [PRÓXIMO]
+## Problema 3: Validaciones Ineficientes de Duplicados
+
+### Diagnóstico
+
+**Archivos afectados:**
+- `app/services/area_service.py` líneas 9-14 y 46-52
+- `app/services/responsable_service.py` líneas 20-24 y 76-84
+
+**Problema:**
+Los servicios de áreas y responsables cargan TODOS los registros a memoria (`SELECT *`) para luego filtrar en Python y verificar duplicados. Con 100.000 áreas, cargarían 100.000 objetos solo para verificar si un nombre ya existe.
+
+**Impacto:**
+- Performance: O(n) en memoria y CPU para una validación simple
+- Scalability: Con muchos registros, el sistema se vuelve lento
+- Conceptual: Viola buenas prácticas de acceso a datos
+
+**Comparación con estudiante_service:**
+El servicio de estudiantes SÍ lo hace correctamente con queries específicas:
+```python
+estudiante_repository.obtener_estudiante_por_email(session, email, excluir_id=...)
+# SQL: SELECT * FROM estudiante WHERE email = ? [AND id != ?]
+```
+
+### Código ANTES
+
+**`app/services/area_service.py` (líneas 9-14):**
+```python
+def crear_area(session: Session, datos: AreaCreate):
+    areas_existentes = area_repository.obtener_areas(session)  # SELECT * FROM area
+
+    for area in areas_existentes:
+        if area.nombre.lower() == datos.nombre.lower():
+            raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
+```
+
+**`app/services/responsable_service.py` (líneas 20-24):**
+```python
+def crear_responsable(session: Session, datos: ResponsableCreate):
+    # ... validación de área ...
+    
+    responsables = responsable_repository.obtener_responsables(session)  # SELECT * FROM responsable
+
+    for responsable in responsables:
+        if responsable.email.lower() == datos.email.lower():
+            raise RecursoDuplicadoError("Ya existe un responsable con ese email.")
+```
+
+### Solución aplicada
+
+**1. Agregar métodos específicos al repositorio:**
+
+`app/repositories/area_repository.py`:
+```python
+def obtener_area_por_nombre(session: Session, nombre: str, excluir_id: int | None = None):
+    sentencia = select(Area).where(Area.nombre == nombre)
+    
+    if excluir_id is not None:
+        sentencia = sentencia.where(Area.id != excluir_id)
+    
+    return session.exec(sentencia).first()
+```
+
+`app/repositories/responsable_repository.py`:
+```python
+def obtener_responsable_por_email(
+    session: Session,
+    email: str,
+    excluir_id: int | None = None
+):
+    sentencia = select(Responsable).where(Responsable.email == email)
+    
+    if excluir_id is not None:
+        sentencia = sentencia.where(Responsable.id != excluir_id)
+    
+    return session.exec(sentencia).first()
+```
+
+**2. Actualizar servicios para usar queries específicas:**
+
+`app/services/area_service.py`:
+```python
+def crear_area(session: Session, datos: AreaCreate):
+    area_existente = area_repository.obtener_area_por_nombre(session, datos.nombre)
+    
+    if area_existente is not None:
+        raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
+```
+
+`app/services/responsable_service.py`:
+```python
+def crear_responsable(session: Session, datos: ResponsableCreate):
+    # ... validación de área ...
+    
+    responsable_existente = responsable_repository.obtener_responsable_por_email(
+        session,
+        datos.email
+    )
+
+    if responsable_existente is not None:
+        raise RecursoDuplicadoError("Ya existe un responsable con ese email.")
+```
+
+**3. Actualizar también el método actualizar_...() en ambos servicios:**
+
+Antes: `SELECT *` y filtrar en Python con `if existente.id != area_id`
+Después: `SELECT * FROM area WHERE nombre = ? AND id != ?` (una sola query)
+
+### Resultado de tests DESPUÉS
+
+```bash
+$ pytest tests/test_main.py -v
+======================== 18 passed, 1 warning in 0.75s =========================
+```
+
+**18/18 tests pasando** sin regresiones.
+
+### Beneficios
+
+| Métrica | Antes | Después |
+|---|---|---|
+| Queries SQL | `SELECT *` (todos los registros) | `SELECT * WHERE ...` (1 registro o ninguno) |
+| Memoria | O(n) objetos cargados | O(1) objetos |
+| CPU | Iteración en Python O(n) | Búsqueda en DB O(log n) |
+| Consistencia | Estudiantes ✅, Áreas/Responsables ❌ | Todos ✅ |
 
 ---
 
@@ -191,7 +314,7 @@ $ pytest tests/test_main.py -v
 
 | # | Problema | Estado | Commit |
 |---|---|---|---|
-| 1 | Error handling inconsistente | ✅ Completado | - |
-| 2 | Tests codifican bug | ✅ Completado (incluido en #1) | - |
-| 3 | Validaciones ineficientes | 🔲 Pendiente | - |
+| 1 | Error handling inconsistente | ✅ Completado | 0f23052 |
+| 2 | Tests codifican bug | ✅ Completado (incluido en #1) | 0f23052 |
+| 3 | Validaciones ineficientes | ✅ Completado | - |
 | 4 | Configuración DB hardcodeada | 🔲 Pendiente | - |

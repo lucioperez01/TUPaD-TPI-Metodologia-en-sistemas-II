@@ -1,6 +1,9 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
 
+from app.core.exceptions import RecursoDuplicadoError, RecursoNoEncontradoError
 from app.database.connection import get_session
 from app.schemas.responsable import (
     ResponsableCreate,
@@ -23,17 +26,19 @@ router = APIRouter(
 )
 def crear_responsable(
     datos: ResponsableCreate,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return responsable_service.crear_responsable(session, datos)
+    except RecursoDuplicadoError as error:
+        raise HTTPException(status_code=409, detail=str(error))
     except ValueError as error:
         raise HTTPException(status_code=400, detail=str(error))
 
 
 @router.get("/", response_model=list[ResponsableResponse])
 def obtener_responsables(
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     return responsable_service.obtener_responsables(session)
 
@@ -41,14 +46,14 @@ def obtener_responsables(
 @router.get("/{responsable_id}", response_model=ResponsableResponse)
 def obtener_responsable(
     responsable_id: int,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return responsable_service.obtener_responsable_por_id(
             session,
             responsable_id
         )
-    except ValueError as error:
+    except RecursoNoEncontradoError as error:
         raise HTTPException(status_code=404, detail=str(error))
 
 
@@ -56,7 +61,7 @@ def obtener_responsable(
 def actualizar_responsable(
     responsable_id: int,
     datos: ResponsableUpdate,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return responsable_service.actualizar_responsable(
@@ -64,19 +69,21 @@ def actualizar_responsable(
             responsable_id,
             datos
         )
-    except ValueError as error:
-        raise HTTPException(status_code=400, detail=str(error))
+    except RecursoNoEncontradoError as error:
+        raise HTTPException(status_code=404, detail=str(error))
+    except RecursoDuplicadoError as error:
+        raise HTTPException(status_code=409, detail=str(error))
 
 
 @router.delete("/{responsable_id}")
 def eliminar_responsable(
     responsable_id: int,
-    session: Session = Depends(get_session)
+    session: Annotated[Session, Depends(get_session)]
 ):
     try:
         return responsable_service.eliminar_responsable(
             session,
             responsable_id
         )
-    except ValueError as error:
+    except RecursoNoEncontradoError as error:
         raise HTTPException(status_code=404, detail=str(error))

@@ -7,11 +7,10 @@ from app.schemas.area import AreaCreate, AreaUpdate
 
 
 def crear_area(session: Session, datos: AreaCreate):
-    areas_existentes = area_repository.obtener_areas(session)
-
-    for area in areas_existentes:
-        if area.nombre.lower() == datos.nombre.lower():
-            raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
+    area_existente = area_repository.obtener_area_por_nombre(session, datos.nombre)
+    
+    if area_existente is not None:
+        raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
 
     nueva_area = Area(
         nombre=datos.nombre,
@@ -43,13 +42,14 @@ def actualizar_area(
     nuevos_datos = datos.model_dump(exclude_unset=True)
 
     if "nombre" in nuevos_datos:
-        areas_existentes = area_repository.obtener_areas(session)
-
-        for existente in areas_existentes:
-            if existente.id != area_id and (
-                existente.nombre.lower() == nuevos_datos["nombre"].lower()
-            ):
-                raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
+        area_existente = area_repository.obtener_area_por_nombre(
+            session, 
+            nuevos_datos["nombre"], 
+            excluir_id=area_id
+        )
+        
+        if area_existente is not None:
+            raise RecursoDuplicadoError("Ya existe un área con ese nombre.")
 
     return area_repository.actualizar_area(
         session,

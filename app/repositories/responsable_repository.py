@@ -22,6 +22,19 @@ def obtener_responsable_por_id(
     return session.get(Responsable, responsable_id)
 
 
+def obtener_responsable_por_email(
+    session: Session,
+    email: str,
+    excluir_id: int | None = None
+):
+    sentencia = select(Responsable).where(Responsable.email == email)
+    
+    if excluir_id is not None:
+        sentencia = sentencia.where(Responsable.id != excluir_id)
+    
+    return session.exec(sentencia).first()
+
+
 def actualizar_responsable(
     session: Session,
     responsable: Responsable,

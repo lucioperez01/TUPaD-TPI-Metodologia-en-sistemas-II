@@ -19,6 +19,15 @@ def obtener_area_por_id(session: Session, area_id: int):
     return session.get(Area, area_id)
 
 
+def obtener_area_por_nombre(session: Session, nombre: str, excluir_id: int | None = None):
+    sentencia = select(Area).where(Area.nombre == nombre)
+    
+    if excluir_id is not None:
+        sentencia = sentencia.where(Area.id != excluir_id)
+    
+    return session.exec(sentencia).first()
+
+
 def actualizar_area(
     session: Session,
     area: Area,

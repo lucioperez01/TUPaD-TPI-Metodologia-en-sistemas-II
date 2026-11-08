@@ -1,5 +1,6 @@
 from sqlmodel import Session
 
+from app.core.exceptions import RecursoDuplicadoError, RecursoNoEncontradoError
 from app.models import Area, Responsable
 from app.repositories import responsable_repository
 from app.schemas.responsable import (
@@ -15,13 +16,15 @@ def crear_responsable(
     area = session.get(Area, datos.area_id)
 
     if area is None:
-        raise ValueError("No existe el área seleccionada.")
+        raise RecursoNoEncontradoError("No existe el área seleccionada.")
 
-    responsables = responsable_repository.obtener_responsables(session)
+    responsable_existente = responsable_repository.obtener_responsable_por_email(
+        session,
+        datos.email
+    )
 
-    for responsable in responsables:
-        if responsable.email.lower() == datos.email.lower():
-            raise ValueError("Ya existe un responsable con ese email.")
+    if responsable_existente is not None:
+        raise RecursoDuplicadoError("Ya existe un responsable con ese email.")
 
     nuevo_responsable = Responsable(
         nombre=datos.nombre,
@@ -50,7 +53,7 @@ def obtener_responsable_por_id(
     )
 
     if responsable is None:
-        raise ValueError("No se encontró el responsable solicitado.")
+        raise RecursoNoEncontradoError("No se encontró el responsable solicitado.")
 
     return responsable
 
@@ -71,17 +74,17 @@ def actualizar_responsable(
         area = session.get(Area, nuevos_datos["area_id"])
 
         if area is None:
-            raise ValueError("No existe el área seleccionada.")
+            raise RecursoNoEncontradoError("No existe el área seleccionada.")
 
     if "email" in nuevos_datos:
-        responsables = responsable_repository.obtener_responsables(session)
+        responsable_existente = responsable_repository.obtener_responsable_por_email(
+            session,
+            nuevos_datos["email"],
+            excluir_id=responsable_id
+        )
 
-        for existente in responsables:
-            if existente.id == responsable_id:
-                continue
-
-            if existente.email.lower() == nuevos_datos["email"].lower():
-                raise ValueError("Ese email ya está registrado.")
+        if responsable_existente is not None:
+            raise RecursoDuplicadoError("Ese email ya está registrado.")
 
     return responsable_repository.actualizar_responsable(
         session,
