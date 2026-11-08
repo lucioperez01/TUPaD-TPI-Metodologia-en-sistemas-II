@@ -4,6 +4,8 @@ EduGestión es una API para administrar solicitudes académicas y las entidades
 relacionadas con ellas: estudiantes, áreas y responsables. El proyecto está
 desarrollado con FastAPI, SQLModel y SQLite.
 
+Link al video de presentación: https://drive.google.com/drive/folders/17Z1Z5j-KcIzvSEcfG49-HcNtTC1yBDQA
+
 ## Funcionalidades
 
 - ABM (alta, baja, modificación y consulta) de estudiantes, áreas,
